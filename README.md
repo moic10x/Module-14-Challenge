@@ -10,27 +10,30 @@ The python notebook uses the following libraries Pandas and SkLearn.
 
 The initial trading algorithm actually had a negative return as is evidenced in the below chart.
 
-![OG_Strategy]("/Starter_Code/original_strategy.png")
+![OG_Strategy](Starter_Code/original_strategy.png)
 
 If someone invested in this strategy in 2015 they would have 60% of their money in 2021.
 
 Then we trained a support vector machine clssifier ("SVM") model to create a new strategy that would signal a short position when it predicted that returns would go down and signal a long position when it predicted returns would go up. We trained this model on the first three months of data that we had and tested on the rest of the dataset through 2021. The features of the dataset used to train the model were simple moving averages ("SMAs") of the closing prices of the emerging market stock. One was an SMA fast whihc had a rolling window of 4 periods and the other was an SMA slow which had a window of 100 periods. The result of the strategy built with the SVM model is highlighted below:
 
-![SVM_Strategy]("/Starter_Code/svm_strategy_v_actual.png")
+![SVM_Strategy](Starter_Code/svm_strategy_v_actual.png)
 
 The strategy built by the SVM model tracked the returns of the ememerging market stock, but it started to diverge and become more profitable in 2018 until the 2020 COVID related shock forces it back to tracking the benchmark. 
 
 We expanded the training dataset for the SVM model from 3 months to 9 months to see how performance would vary.
 
-![SVM_long_train]("/Starter_Code/svm_strategy_longer_train_v_actual.png")
+![SVM_long_train](Starter_Code/svm_strategy_longer_train_v_actual.png)
 
 We also trained the model with shorter SMA slow window of 50 periods (maintained tranining dataset to the first three months of avaialble data as the original).
 
-![SVM_sma_slow_50]("/Starter_Code/svm_strategy_short_50_sma_train_v_actual.png")
+![SVM_sma_slow_50](Starter_Code/svm_strategy_short_50_sma_train_v_actual.png)
 
 It seems that increasing the size of the training dataset is not helping improve performance of the trading strategy. Though the model trained with the 50 period SMA slow feature produced returns superior to actual they were not as good as those of the original model. Further tuning of the original model is required to achieve improved performance.
 
 We also created a signaling strategy using a different model, the Decision Tree Classifier. We kept the features the same as what we used in the SVM a 4 and 100 period moving average, but used a much larger traning set of 36 months.
 
-![Decision_Tree]("/Starter_Code/tree_strategy_v_actual.png")
+![Decision_Tree](Starter_Code/tree_strategy_v_actual.png)
 
+It seems that the model significantly overperformed actual returns of the emmerging market from late 2018 to late 2019. From then on, it underperforms the market until around mid-2020 when it beats it again but eventually they track to the same cummulative return.
+
+In conclusion, it appears that the model that performed the best was the original SVM model which was trained on three months of data and fed 4 and 100 period SMAs as features. It acheieved a cummulative return of 1.6, higher than that achieved on the tuned SVM or the Decision Tree Classifier. One thing I noticed when tuning the models was that they tended to perform better when the market was trending. This makes sense since the SMAs are trending indicators 
